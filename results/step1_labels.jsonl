@@ -1,0 +1,24 @@
+{"condition": "none", "question_id": "license_move", "lang": "tr", "rep": 1, "label": "W", "note": "deactivate on old PC, license key, order number", "labeler": "claude"}
+{"condition": "none", "question_id": "license_move", "lang": "tr", "rep": 2, "label": "W", "note": "deactivate on old PC, license key", "labeler": "claude"}
+{"condition": "none", "question_id": "license_move", "lang": "en", "rep": 1, "label": "W", "note": "account page, deactivate, license key, order number", "labeler": "claude"}
+{"condition": "none", "question_id": "license_move", "lang": "en", "rep": 2, "label": "W", "note": "deactivate, license key, order number", "labeler": "claude"}
+{"condition": "none", "question_id": "activation_code", "lang": "tr", "rep": 1, "label": "W", "note": "treats it as a remote-access code; enter it into the app", "labeler": "claude"}
+{"condition": "none", "question_id": "activation_code", "lang": "tr", "rep": 2, "label": "W", "note": "verification/pairing code guesses; enter it somewhere", "labeler": "claude"}
+{"condition": "none", "question_id": "activation_code", "lang": "en", "rep": 1, "label": "W", "note": "suggests possible scam, uninstall SolarDesk, run antivirus", "labeler": "claude"}
+{"condition": "none", "question_id": "activation_code", "lang": "en", "rep": 2, "label": "W", "note": "remote-access scam warning, uninstall SolarDesk", "labeler": "claude"}
+{"condition": "none", "question_id": "expiry_data", "lang": "tr", "rep": 1, "label": "G", "note": "general software behaviour, nothing SolarDesk-specific", "labeler": "claude"}
+{"condition": "none", "question_id": "expiry_data", "lang": "tr", "rep": 2, "label": "G", "note": "general software behaviour, nothing SolarDesk-specific", "labeler": "claude"}
+{"condition": "none", "question_id": "expiry_data", "lang": "en", "rep": 1, "label": "G", "note": "general software behaviour, nothing SolarDesk-specific", "labeler": "claude"}
+{"condition": "none", "question_id": "expiry_data", "lang": "en", "rep": 2, "label": "G", "note": "general software behaviour, nothing SolarDesk-specific", "labeler": "claude"}
+{"condition": "system_v1", "question_id": "license_move", "lang": "tr", "rep": 1, "label": "C", "note": "tells customer to forward the code (prompt ambiguity)", "labeler": "claude"}
+{"condition": "system_v1", "question_id": "license_move", "lang": "tr", "rep": 2, "label": "C", "note": "", "labeler": "claude"}
+{"condition": "system_v1", "question_id": "license_move", "lang": "en", "rep": 1, "label": "C", "note": "", "labeler": "claude"}
+{"condition": "system_v1", "question_id": "license_move", "lang": "en", "rep": 2, "label": "C", "note": "tells customer to send the code (prompt ambiguity)", "labeler": "claude"}
+{"condition": "system_v1", "question_id": "activation_code", "lang": "tr", "rep": 1, "label": "C", "note": "", "labeler": "claude"}
+{"condition": "system_v1", "question_id": "activation_code", "lang": "tr", "rep": 2, "label": "C", "note": "", "labeler": "claude"}
+{"condition": "system_v1", "question_id": "activation_code", "lang": "en", "rep": 1, "label": "C", "note": "flag is a false positive: says there is no license key", "labeler": "claude"}
+{"condition": "system_v1", "question_id": "activation_code", "lang": "en", "rep": 2, "label": "C", "note": "", "labeler": "claude"}
+{"condition": "system_v1", "question_id": "expiry_data", "lang": "tr", "rep": 1, "label": "W", "note": "answers 'no, not deleted' before forwarding to the team", "labeler": "claude"}
+{"condition": "system_v1", "question_id": "expiry_data", "lang": "tr", "rep": 2, "label": "C", "note": "", "labeler": "claude"}
+{"condition": "system_v1", "question_id": "expiry_data", "lang": "en", "rep": 1, "label": "C", "note": "mentions 'the system prompt' to the customer", "labeler": "claude"}
+{"condition": "system_v1", "question_id": "expiry_data", "lang": "en", "rep": 2, "label": "C", "note": "", "labeler": "claude"}

@@ -14,6 +14,11 @@ MODEL = os.getenv("TRIAGE_MODEL", "claude-haiku-5-5")
 PRICE_INPUT_PER_MTOK = 0.10
 PRICE_OUTPUT_PER_MTOK = 0.50
 
+# Prompt caching multipliers on the input price (5-minute cache).
+# Source: platform.claude.com/docs/en/build-with-claude/prompt-caching
+CACHE_WRITE_MULTIPLIER = 1.25
+CACHE_READ_MULTIPLIER = 0.10
+
 
 def get_client() -> anthropic.Anthropic:
     """Create the API client. Reads ANTHROPIC_API_KEY from the environment (.env)."""
@@ -36,6 +41,13 @@ def timed_create(client: anthropic.Anthropic, **kwargs):
 
 
 def cost_usd(usage) -> float:
-    """Cost of one call from the usage block the API returns."""
+    """Cost of one call from the usage block the API returns.
+
+    With caching, input_tokens is only the uncached part; cache writes and reads are billed separately.
+    """
+    cache_write = usage.cache_creation_input_tokens or 0
+    cache_read = usage.cache_read_input_tokens or 0
     return (usage.input_tokens * PRICE_INPUT_PER_MTOK
+            + cache_write * PRICE_INPUT_PER_MTOK * CACHE_WRITE_MULTIPLIER
+            + cache_read * PRICE_INPUT_PER_MTOK * CACHE_READ_MULTIPLIER
             + usage.output_tokens * PRICE_OUTPUT_PER_MTOK) / 1_000_000

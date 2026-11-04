@@ -1,0 +1,73 @@
+{
+  "config": {
+    "name": "v1_baseline",
+    "model": "claude-haiku-5-5",
+    "effort": "low",
+    "handbook": "handbook_v3",
+    "triage": "triage_v1",
+    "prompt_hash": "8691a2c6",
+    "split": "all",
+    "reps": 3,
+    "cases": 30,
+    "date": "2026-11-04T08:41:14+00:00"
+  },
+  "n_rows": 90,
+  "errors": 0,
+  "metrics": {
+    "category_ok": 0.967,
+    "urgency_ok": 0.756,
+    "needs_human_ok": 0.933,
+    "all_ok": 0.689
+  },
+  "by_split": {
+    "dev": {
+      "category_ok": 0.95,
+      "urgency_ok": 0.75,
+      "needs_human_ok": 0.95,
+      "all_ok": 0.65,
+      "n": 60
+    },
+    "holdout": {
+      "category_ok": 1.0,
+      "urgency_ok": 0.767,
+      "needs_human_ok": 0.9,
+      "all_ok": 0.767,
+      "n": 30
+    }
+  },
+  "by_lang": {
+    "tr": 0.778,
+    "en": 0.6
+  },
+  "flaky_cases": [
+    "t21"
+  ],
+  "failed_cases": [
+    "t05",
+    "t08",
+    "t10",
+    "t20",
+    "t21",
+    "t25",
+    "t26",
+    "t27",
+    "t28",
+    "t30"
+  ],
+  "urgency_confusion": {
+    "high->high": 12,
+    "low->low": 45,
+    "low->medium": 9,
+    "medium->high": 6,
+    "medium->low": 7,
+    "medium->medium": 11
+  },
+  "cost_usd": 0.009655,
+  "cache_read_share": 0.965,
+  "latency_ms": {
+    "p50": 1918,
+    "p95": 3312,
+    "max": 4559
+  },
+  "wall_s": 48.9
+}

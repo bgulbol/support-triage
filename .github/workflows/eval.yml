@@ -1,0 +1,52 @@
+# Runs the evals against the real API. Costs about $0.005 per run, so it only runs
+# when prompts or golden data change, or when you start it by hand (Actions tab -> eval -> Run workflow).
+name: eval
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "prompts/**"
+      - "data/golden/**"
+      - "src/triage/**"
+
+concurrency:
+  group: eval
+  cancel-in-progress: true
+
+jobs:
+  eval:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -e ".[dev]"
+
+      - name: Triage eval (dev split, 1 repeat)
+        run: python -m triage.evals.run_triage_eval --name ci_triage --triage triage_v2 --split dev --reps 1
+
+      - name: Compare with the committed baseline (report only)
+        run: python -m triage.evals.compare --baseline v2_dev --candidate ci_triage
+        continue-on-error: true
+
+      - name: NL2SQL eval
+        run: python -m triage.nl2sql.run_nl2sql_eval --name ci_nl2sql --reps 1
+
+      - name: Quality gate
+        run: |
+          python -m triage.evals.gate --summary results/evals/ci_triage.summary.json --metric metrics.all_ok --min 0.85
+          python -m triage.evals.gate --summary results/evals/ci_nl2sql.summary.json --metric accuracy --min 0.90
+
+      - name: Keep the results
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: eval-results
+          path: results/evals/ci_*

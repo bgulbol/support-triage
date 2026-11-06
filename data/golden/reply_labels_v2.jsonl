@@ -1,0 +1,30 @@
+{"case_id": "t01", "label": "pass", "failed_rules": [], "note": ""}
+{"case_id": "t02", "label": "pass", "failed_rules": [], "note": ""}
+{"case_id": "t03", "label": "pass", "failed_rules": [], "note": ""}
+{"case_id": "t04", "label": "pass", "failed_rules": [], "note": ""}
+{"case_id": "t05", "label": "pass", "failed_rules": [], "note": "Input list (region, height, terrain, panel size) is the model's inference; to be confirmed with the real manual"}
+{"case_id": "t06", "label": "pass", "failed_rules": [], "note": "Asks for the SolarDesk version; check that users can see a version number"}
+{"case_id": "t07", "label": "pass", "failed_rules": [], "note": ""}
+{"case_id": "t08", "label": "pass", "failed_rules": [], "note": ""}
+{"case_id": "t09", "label": "pass", "failed_rules": [], "note": ""}
+{"case_id": "t10", "label": "pass", "failed_rules": [], "note": ""}
+{"case_id": "t11", "label": "pass", "failed_rules": [], "note": "Correct deferral; handbook gap: what to do about the Windows SmartScreen warning"}
+{"case_id": "t12", "label": "pass", "failed_rules": [], "note": ""}
+{"case_id": "t13", "label": "pass", "failed_rules": [], "note": ""}
+{"case_id": "t14", "label": "pass", "failed_rules": [], "note": ""}
+{"case_id": "t15", "label": "pass", "failed_rules": [], "note": ""}
+{"case_id": "t16", "label": "pass", "failed_rules": [], "note": ""}
+{"case_id": "t17", "label": "fail", "failed_rules": ["R1"], "note": "Claims the code was received and invents 'SolarDesk Türkiye' team; garbled last sentence (fact-check flagged by Claude)"}
+{"case_id": "t18", "label": "pass", "failed_rules": [], "note": ""}
+{"case_id": "t19", "label": "pass", "failed_rules": [], "note": ""}
+{"case_id": "t20", "label": "fail", "failed_rules": ["R1"], "note": "Promises a reply before the end of the month: a timeline the handbook does not give (fact-check flagged by Claude)"}
+{"case_id": "t21", "label": "pass", "failed_rules": [], "note": ""}
+{"case_id": "t22", "label": "pass", "failed_rules": [], "note": "Correct deferral; handbook gap: Excel export exists (Metraj > Bağlantı Elemanları > Excel). Then needs_human=false"}
+{"case_id": "t23", "label": "pass", "failed_rules": [], "note": "Correct deferral; handbook gap: latest installer can be downloaded from the website (URL needed). Then needs_human=false"}
+{"case_id": "t24", "label": "pass", "failed_rules": [], "note": ""}
+{"case_id": "t25", "label": "pass", "failed_rules": [], "note": ""}
+{"case_id": "t26", "label": "pass", "failed_rules": [], "note": ""}
+{"case_id": "t27", "label": "pass", "failed_rules": [], "note": ""}
+{"case_id": "t28", "label": "pass", "failed_rules": [], "note": ""}
+{"case_id": "t29", "label": "pass", "failed_rules": [], "note": ""}
+{"case_id": "t30", "label": "pass", "failed_rules": [], "note": "Turning off the old license comes from triage_v2, not the handbook"}

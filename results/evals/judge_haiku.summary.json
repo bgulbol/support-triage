@@ -1,0 +1,46 @@
+{
+  "name": "judge_haiku",
+  "model": "claude-haiku-5-5",
+  "effort": "medium",
+  "runs": [
+    "v2_dev",
+    "v2_holdout"
+  ],
+  "handbook": "handbook_v3",
+  "triage": "triage_v2",
+  "extra": [
+    "data/golden/reply_negatives.jsonl"
+  ],
+  "by_set": {
+    "main": {
+      "n": 30,
+      "agreement": 0.933,
+      "kappa": 0.464,
+      "human_pass_rate": 0.933,
+      "judge_pass_rate": 0.933,
+      "false_pass": 1,
+      "false_fail": 1,
+      "errors": 0
+    },
+    "extra": {
+      "n": 6,
+      "agreement": 1.0,
+      "kappa": 1.0,
+      "human_pass_rate": 0.0,
+      "judge_pass_rate": 0.0,
+      "false_pass": 0,
+      "false_fail": 0,
+      "errors": 0
+    }
+  },
+  "n": 36,
+  "agreement": 0.944,
+  "kappa": 0.839,
+  "human_pass_rate": 0.778,
+  "judge_pass_rate": 0.778,
+  "false_pass": 1,
+  "false_fail": 1,
+  "errors": 0,
+  "cost_usd": 0.006648,
+  "wall_s": 22.6
+}

@@ -1,0 +1,54 @@
+{
+  "config": {
+    "name": "v2_holdout",
+    "model": "claude-haiku-5-5",
+    "effort": "low",
+    "handbook": "handbook_v3",
+    "triage": "triage_v2",
+    "prompt_hash": "e9af1303",
+    "split": "holdout",
+    "reps": 3,
+    "cases": 10,
+    "date": "2026-11-06T08:53:47+00:00"
+  },
+  "n_rows": 30,
+  "errors": 0,
+  "metrics": {
+    "category_ok": 1.0,
+    "urgency_ok": 0.9,
+    "needs_human_ok": 1.0,
+    "all_ok": 0.9
+  },
+  "by_split": {
+    "holdout": {
+      "category_ok": 1.0,
+      "urgency_ok": 0.9,
+      "needs_human_ok": 1.0,
+      "all_ok": 0.9,
+      "n": 30
+    }
+  },
+  "by_lang": {
+    "tr": 0.8,
+    "en": 1.0
+  },
+  "flaky_cases": [],
+  "failed_cases": [
+    "t15"
+  ],
+  "urgency_confusion": {
+    "high->high": 9,
+    "low->low": 12,
+    "low->medium": 3,
+    "medium->low": 3,
+    "medium->medium": 3
+  },
+  "cost_usd": 0.003526,
+  "cache_read_share": 0.947,
+  "latency_ms": {
+    "p50": 1471,
+    "p95": 2898,
+    "max": 3072
+  },
+  "wall_s": 15.5
+}

@@ -1,5 +1,5 @@
 """Unit tests for the code-based scorers. No API calls: these run in CI for free."""
-from triage.evals.scorers import accuracy, flaky_cases, percentile, score_triage, urgency_confusion
+from triage.evals.scorers import agreement_report, accuracy, flaky_cases, percentile, score_triage, urgency_confusion
 
 CASE = {"expected_category": ["calculation", "billing"], "expected_urgency": "high", "expected_needs_human": True}
 
@@ -50,3 +50,30 @@ def test_urgency_confusion_counts_missing_as_none():
 def test_flaky_cases_detects_changed_answers():
     rows = [row("a", result()), row("a", result(urgency="low")), row("b", result()), row("b", result())]
     assert flaky_cases(rows) == ["a"]
+
+
+def test_urgency_accepts_a_list_and_a_plain_string():
+    case = {"expected_category": ["billing"], "expected_urgency": ["medium", "high"], "expected_needs_human": True}
+    assert score_triage(case, result(category="billing", urgency="high"))["urgency_ok"] is True
+    assert score_triage(case, result(category="billing", urgency="low"))["urgency_ok"] is False
+    assert score_triage(CASE | {"expected_urgency": "high"}, result())["urgency_ok"] is True
+
+
+def test_confusion_uses_the_primary_expected_label():
+    rows = [row("a", result(urgency="high"), expected_urgency=["medium", "high"])]
+    assert urgency_confusion(rows) == {("medium", "high"): 1}
+
+
+def test_agreement_report_counts_and_kappa():
+    human = ["pass", "pass", "fail", "fail"]
+    judge = ["pass", "fail", "fail", "pass"]
+    report = agreement_report(human, judge)
+    assert report["agreement"] == 0.5
+    assert report["kappa"] == 0.0          # 50% agreement is exactly what chance gives here
+    assert report["false_pass"] == 1 and report["false_fail"] == 1
+
+
+def test_agreement_report_perfect_and_judge_error():
+    assert agreement_report(["pass", "fail"], ["pass", "fail"])["kappa"] == 1.0
+    report = agreement_report(["pass", "fail"], ["pass", None])
+    assert report["errors"] == 1 and report["agreement"] == 0.5

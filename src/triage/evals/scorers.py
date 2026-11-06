@@ -5,16 +5,26 @@ from collections import Counter
 URGENCY_LEVELS = ["low", "medium", "high"]
 
 
+def as_list(value) -> list:
+    """Golden fields can be one value or a list of acceptable values."""
+    return value if isinstance(value, list) else [value]
+
+
+def primary(value):
+    """The first acceptable value: the 'main' expected label, used for the confusion matrix."""
+    return as_list(value)[0]
+
+
 def score_triage(case: dict, result: dict | None) -> dict:
     """Compare one triage result with the golden case.
 
-    expected_category is a list: some tickets have more than one acceptable category.
-    A missing result (invalid output, API error) fails every field.
+    expected_category and expected_urgency are lists: some tickets have more than one
+    acceptable answer. A missing result (invalid output, API error) fails every field.
     """
     if result is None:
         return {"category_ok": False, "urgency_ok": False, "needs_human_ok": False, "all_ok": False}
-    category_ok = result["category"] in case["expected_category"]
-    urgency_ok = result["urgency"] == case["expected_urgency"]
+    category_ok = result["category"] in as_list(case["expected_category"])
+    urgency_ok = result["urgency"] in as_list(case["expected_urgency"])
     needs_human_ok = result["needs_human"] == case["expected_needs_human"]
     return {
         "category_ok": category_ok,
@@ -46,7 +56,7 @@ def urgency_confusion(rows: list[dict]) -> dict[tuple[str, str], int]:
     pairs = Counter()
     for r in rows:
         predicted = r["result"]["urgency"] if r["result"] else "none"
-        pairs[(r["expected_urgency"], predicted)] += 1
+        pairs[(primary(r["expected_urgency"]), predicted)] += 1
     return dict(pairs)
 
 
@@ -58,3 +68,33 @@ def flaky_cases(rows: list[dict]) -> list[str]:
         key = (res["category"], res["urgency"], res["needs_human"]) if res else None
         answers.setdefault(r["case_id"], set()).add(key)
     return sorted(case_id for case_id, seen in answers.items() if len(seen) > 1)
+
+
+def agreement_report(human: list[str], judge: list[str | None]) -> dict:
+    """Compare pass/fail labels from a human and a judge.
+
+    agreement: share of identical labels. kappa (Cohen's): agreement corrected for chance.
+    If both say 'pass' 90% of the time, they agree ~82% by luck alone; kappa removes that.
+    A judge error (None) counts as a disagreement.
+    """
+    n = len(human)
+    if n == 0:
+        return {"n": 0, "agreement": 0.0, "kappa": 0.0, "human_pass_rate": 0.0, "judge_pass_rate": 0.0,
+                "false_pass": 0, "false_fail": 0, "errors": 0}
+    p_o = sum(h == j for h, j in zip(human, judge)) / n
+    h_pass = sum(h == "pass" for h in human) / n
+    j_pass = sum(j == "pass" for j in judge) / n
+    j_fail = sum(j == "fail" for j in judge) / n
+    p_e = h_pass * j_pass + (1 - h_pass) * j_fail
+    kappa = (p_o - p_e) / (1 - p_e) if p_e < 1 else 1.0
+    return {
+        "n": n,
+        "agreement": round(p_o, 3),
+        "kappa": round(kappa, 3),
+        "human_pass_rate": round(h_pass, 3),
+        "judge_pass_rate": round(j_pass, 3),
+        # The dangerous error: the judge lets a bad reply through.
+        "false_pass": sum(h == "fail" and j == "pass" for h, j in zip(human, judge)),
+        "false_fail": sum(h == "pass" and j == "fail" for h, j in zip(human, judge)),
+        "errors": sum(j is None for j in judge),
+    }

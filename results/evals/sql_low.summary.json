@@ -1,0 +1,48 @@
+{
+  "config": {
+    "name": "sql_low",
+    "model": "claude-haiku-5-5",
+    "effort": "low",
+    "prompt": "nl2sql_v1",
+    "prompt_hash": "51e4bae2",
+    "reps": 3,
+    "cases": 30,
+    "date": "2026-11-06T13:27:25+00:00"
+  },
+  "accuracy": 0.889,
+  "execution_accuracy_answerable": 0.897,
+  "exact_match_answerable": 0.154,
+  "outcomes": {
+    "correct": 70,
+    "wrong_result": 8,
+    "refused_ok": 10,
+    "should_refuse": 2
+  },
+  "by_tag": {
+    "aggregate": 0.857,
+    "ambiguous": 1.0,
+    "anti_join": 1.0,
+    "boundary": 1.0,
+    "date": 1.0,
+    "definition": 1.0,
+    "having": 1.0,
+    "join": 0.778,
+    "left_join": 1.0,
+    "name_match": 1.0,
+    "no_data": 0.667,
+    "ordered": 0.167,
+    "simple": 1.0,
+    "ties": 0.0,
+    "trap": 1.0,
+    "turkish_chars": 1.0,
+    "two_columns": 1.0,
+    "write": 1.0
+  },
+  "cost_usd": 0.007547,
+  "avg_output_tokens": 134,
+  "latency_ms": {
+    "p50": 1168,
+    "p95": 2354
+  },
+  "wall_s": 32.1
+}

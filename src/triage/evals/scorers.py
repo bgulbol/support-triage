@@ -1,6 +1,7 @@
 """Code-based scorers. Pure functions: no API calls, so they are unit-tested and run in CI for free."""
 import math
 from collections import Counter
+from itertools import combinations
 
 URGENCY_LEVELS = ["low", "medium", "high"]
 
@@ -98,3 +99,55 @@ def agreement_report(human: list[str], judge: list[str | None]) -> dict:
         "false_fail": sum(h == "pass" and j == "fail" for h, j in zip(human, judge)),
         "errors": sum(j is None for j in judge),
     }
+
+
+def _norm_value(v):
+    """Make equal answers compare equal: 29700.0 == 29700, 0.3333333 ~ 0.33, text trimmed."""
+    if isinstance(v, float):
+        v = round(v, 2)
+        return int(v) if v.is_integer() else v
+    if isinstance(v, str):
+        return v.strip()
+    return v
+
+
+def _norm_row(row) -> tuple:
+    """Column order is ignored: (code, label) and (label, code) are the same answer."""
+    return tuple(sorted((_norm_value(v) for v in row), key=lambda x: (type(x).__name__, str(x))))
+
+
+def results_match(gold: list[tuple], pred: list[tuple], ordered: bool = False, order_col: int | None = None,
+                  allow_extra_columns: bool = False) -> bool:
+    """Execution accuracy: do the two queries return the same rows?
+
+    - Unordered questions: same rows in any order (a multiset comparison).
+    - Ordered questions: same rows in the same order. Rows that tie on the gold sort column
+      (order_col) may come in any order among themselves, because SQL leaves that undefined.
+    Column names are ignored. The number of columns must match, unless allow_extra_columns:
+    then the prediction passes if some of its columns, taken together, match the gold result
+    (e.g. the right company plus a count nobody asked for). Missing columns always fail.
+    """
+    if allow_extra_columns and gold and pred and len(pred[0]) > len(gold[0]):
+        return any(results_match(gold, [tuple(r[i] for i in cols) for r in pred], ordered, order_col)
+                   for cols in combinations(range(len(pred[0])), len(gold[0])))
+    gold_n, pred_n = [_norm_row(r) for r in gold], [_norm_row(r) for r in pred]
+    if len(gold_n) != len(pred_n):
+        return False
+    if not ordered:
+        return Counter(gold_n) == Counter(pred_n)
+    if order_col is None:
+        return gold_n == pred_n
+    i = 0
+    while i < len(gold):  # walk the gold rows group by group of equal sort keys
+        j = i
+        while j < len(gold) and gold[j][order_col] == gold[i][order_col]:
+            j += 1
+        if Counter(gold_n[i:j]) != Counter(pred_n[i:j]):
+            return False
+        i = j
+    return True
+
+
+def normalize_sql(sql: str) -> str:
+    """For the exact-match baseline: lower case, single spaces, no trailing semicolon."""
+    return " ".join(sql.lower().replace(";", " ").split())

@@ -1,0 +1,50 @@
+{
+  "config": {
+    "name": "sql_medium_lenient",
+    "model": "claude-haiku-5-5",
+    "effort": "medium",
+    "prompt": "nl2sql_v1",
+    "prompt_hash": "51e4bae2",
+    "reps": 3,
+    "cases": 30,
+    "date": "2026-11-06T13:28:06+00:00",
+    "rescored_from": "sql_medium"
+  },
+  "accuracy": 0.944,
+  "accuracy_strict": 0.889,
+  "execution_accuracy_answerable": 0.936,
+  "exact_match_answerable": 0.167,
+  "outcomes": {
+    "correct": 68,
+    "correct_extra_columns": 5,
+    "refused_ok": 12,
+    "wrong_result": 5
+  },
+  "by_tag": {
+    "aggregate": 1.0,
+    "ambiguous": 0.667,
+    "anti_join": 1.0,
+    "boundary": 1.0,
+    "date": 0.905,
+    "definition": 1.0,
+    "having": 1.0,
+    "join": 0.889,
+    "left_join": 1.0,
+    "name_match": 1.0,
+    "no_data": 1.0,
+    "ordered": 0.5,
+    "simple": 1.0,
+    "ties": 0.0,
+    "trap": 1.0,
+    "turkish_chars": 1.0,
+    "two_columns": 1.0,
+    "write": 1.0
+  },
+  "cost_usd": 0.009435,
+  "avg_output_tokens": 179,
+  "latency_ms": {
+    "p50": 1280,
+    "p95": 2505
+  },
+  "wall_s": 0.0
+}
